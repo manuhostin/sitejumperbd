@@ -112,25 +112,23 @@ def remove_like(request, game_id):
         return JsonResponse({'error': 'JSON inválido'}, status=400)
 
 
-@require_http_methods(["GET"])
-def game_comments(request, game_id):
-    """Lista todos os comentários de um game"""
-    game = get_object_or_404(Game, game_id=game_id)
-    comments = game.comments.all().values('id', 'user_id', 'text', 'created_at', 'updated_at')
-    return JsonResponse({
-        'game_id': game_id,
-        'total_comments': game.comments.count(),
-        'comments': list(comments)
-    })
-
-
-@require_http_methods(["POST"])
+@require_http_methods(["GET", "POST"])
 @csrf_exempt
-def add_comment(request, game_id):
-    """Adiciona um comentário em um game"""
+def game_comments(request, game_id):
+    """Lista todos os comentários de um game (GET) ou adiciona um comentário (POST)"""
+    game = get_object_or_404(Game, game_id=game_id)
+    
+    if request.method == 'GET':
+        comments = game.comments.all().values('id', 'user_id', 'text', 'created_at', 'updated_at')
+        return JsonResponse({
+            'game_id': game_id,
+            'total_comments': game.comments.count(),
+            'comments': list(comments)
+        })
+    
+    # POST - Adicionar comentário
     try:
-        game = get_object_or_404(Game, game_id=game_id)
-        data = json.loads(request.body)
+        data = json.loads(request.body or '{}')
         user_id = data.get('user_id')
         text = data.get('text')
         
@@ -142,13 +140,20 @@ def add_comment(request, game_id):
         return JsonResponse({
             'id': comment.id,
             'game_id': game_id,
-            'user_id': user_id,
+            'user_id': comment.user_id,
             'text': comment.text,
             'created_at': comment.created_at,
             'updated_at': comment.updated_at
         }, status=201)
     except json.JSONDecodeError:
         return JsonResponse({'error': 'JSON inválido'}, status=400)
+
+
+@require_http_methods(["POST"])
+@csrf_exempt
+def add_comment(request, game_id):
+    """Alias para add_comment - pode ser removida depois"""
+    return game_comments(request, game_id)
 
 
 @require_http_methods(["GET"])
