@@ -2,6 +2,7 @@
 
 ## 1) Backend no Render
 1. No Render, crie o serviço usando o `render.yaml` deste repositório.
+   - Antes do primeiro deploy, substitua os placeholders `<your-frontend>` e `<your-backend>` pelos domínios reais.
 2. O Render criará:
    - Web service Django
    - Banco PostgreSQL
