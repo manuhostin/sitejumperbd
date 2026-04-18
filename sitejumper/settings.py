@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 
 from pathlib import Path
 import os
+import secrets
 import environ
 from django.core.exceptions import ImproperlyConfigured
 
@@ -36,7 +37,7 @@ def _resolve_secret_key(debug):
     if configured_secret_key:
         return configured_secret_key
     if debug:
-        return 'django-insecure-wxl5s1zg!i3q816y4@a8*lvyjs7ll9br+o-#_2a)))akhthisc'
+        return secrets.token_urlsafe(50)
     raise ImproperlyConfigured(
         'SECRET_KEY must be configured when DEBUG=False. Generate a secure random value in your environment.'
     )
