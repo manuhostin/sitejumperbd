@@ -7,11 +7,19 @@ from sitejumper import settings
 
 class SettingsConfigurationTests(SimpleTestCase):
     def test_resolve_secret_key_uses_env_value_when_available(self):
-        with patch.object(settings, 'env', return_value='configured-secret'):
+        with patch.object(
+            settings,
+            'env',
+            side_effect=lambda key, default='': 'configured-secret' if key == 'SECRET_KEY' else default,
+        ):
             self.assertEqual(settings._resolve_secret_key(debug=False), 'configured-secret')
 
     def test_resolve_secret_key_generates_value_in_production(self):
-        with patch.object(settings, 'env', return_value=''):
+        with patch.object(
+            settings,
+            'env',
+            side_effect=lambda key, default='': '' if key == 'SECRET_KEY' else default,
+        ):
             generated_secret = settings._resolve_secret_key(debug=False)
 
         self.assertTrue(generated_secret)
