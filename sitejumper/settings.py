@@ -12,12 +12,11 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 
 from pathlib import Path
 import os
+import secrets
 import environ
 
 # Inicializa o django-environ
-env = environ.Env(
-    DEBUG=(bool, False)
-)
+env = environ.Env(DEBUG=(bool, False))
 
 environ.Env.read_env()
 
@@ -28,11 +27,21 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = env('SECRET_KEY', default='django-insecure-wxl5s1zg!i3q816y4@a8*lvyjs7ll9br+o-#_2a)))akhthisc')
-
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = env('DEBUG', default=True)
+DEBUG = env('DEBUG', default=False)
+
+
+def _resolve_secret_key(debug):
+    configured_secret_key = env('SECRET_KEY', default='')
+    if configured_secret_key:
+        return configured_secret_key
+    if debug:
+        return 'django-insecure-wxl5s1zg!i3q816y4@a8*lvyjs7ll9br+o-#_2a)))akhthisc'
+    return secrets.token_urlsafe(50)
+
+
+# SECURITY WARNING: keep the secret key used in production secret!
+SECRET_KEY = _resolve_secret_key(DEBUG)
 
 ALLOWED_HOSTS = env.list('ALLOWED_HOSTS', default=['.onrender.com', 'localhost', '127.0.0.1'])
 
@@ -132,11 +141,15 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # CORS Configuration
-CORS_ALLOWED_ORIGINS = [
+default_cors_allowed_origins = [
     'http://localhost:5173',
     'http://127.0.0.1:5173',
     'http://localhost:3000',
     'http://127.0.0.1:3000',
+]
+CORS_ALLOWED_ORIGINS = env.list('CORS_ALLOWED_ORIGINS', default=default_cors_allowed_origins)
+CORS_ALLOWED_ORIGIN_REGEXES = [
+    r'^https://.*\.vercel\.app$',
 ]
 
 # Permitir CORS para todas as origens em desenvolvimento

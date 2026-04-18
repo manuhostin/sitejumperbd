@@ -9,3 +9,9 @@ Um projeto Django.
 3. Instale as dependências: `pip install -r requirements.txt`
 4. Execute as migrações: `python manage.py migrate`
 5. Rode o servidor: `python manage.py runserver`
+
+## Deploy (Render + Vercel)
+
+- Copie `.env.example` para `.env` e ajuste os valores.
+- No Render, configure: `DATABASE_URL`, `SECRET_KEY`, `ALLOWED_HOSTS`, `DEBUG=False`, `CORS_ALLOWED_ORIGINS`.
+- No frontend (Vercel), configure `VITE_API_URL` (veja `frontend.vercel.env.example`).

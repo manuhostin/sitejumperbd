@@ -1,0 +1,6 @@
+services:
+  - type: web
+    runtime: python
+    pythonVersion: 3.11
+    buildCommand: pip install -r requirements.txt && python manage.py collectstatic --no-input && python manage.py migrate
+    startCommand: python -m gunicorn sitejumper.wsgi:application
