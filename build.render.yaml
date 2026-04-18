@@ -2,6 +2,6 @@ services:
   - type: web
     runtime: python
     pythonVersion: 3.11
-    buildCommand: pip install -r requirements.txt && DJANGO_SETTINGS_MODULE=sitejumper.settings python manage.py collectstatic --no-input
-    preDeployCommand: DJANGO_SETTINGS_MODULE=sitejumper.settings python manage.py migrate
+    buildCommand: pip install -r requirements.txt && python manage.py collectstatic --no-input
+    preDeployCommand: python manage.py migrate
     startCommand: python -m gunicorn sitejumper.wsgi:application
