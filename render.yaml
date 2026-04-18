@@ -20,6 +20,7 @@ services:
       - key: ALLOWED_HOSTS
         value: "sitejumperbd.onrender.com,.onrender.com,localhost,127.0.0.1"
       - key: CORS_ALLOWED_ORIGINS
+        # Substitua <your-frontend> pelo domínio real do frontend no Vercel.
         value: "https://<your-frontend>.vercel.app"
 
 databases:
