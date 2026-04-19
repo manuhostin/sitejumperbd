@@ -14,14 +14,8 @@ services:
       - key: SECRET_KEY
         generateValue: true
       - key: DATABASE_URL
-        fromDatabase:
-          name: sitejumperbd-db
-          property: connectionString
+        sync: false
       - key: ALLOWED_HOSTS
         value: "sitejumperbd.onrender.com,.onrender.com,localhost,127.0.0.1"
       - key: CORS_ALLOWED_ORIGINS
         value: "https://sitejogosdosalunos.vercel.app"
-
-databases:
-  - name: sitejumperbd-db
-    plan: free
