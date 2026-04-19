@@ -23,10 +23,11 @@ Para migrar, basta apontar essa variável para o PostgreSQL do Supabase.
 4. Exemplo de `DATABASE_URL`:
 
 ```env
-DATABASE_URL=postgresql://postgres:[YOUR-PASSWORD]@db.<your-project-ref>.supabase.co:5432/postgres?sslmode=require
+DATABASE_URL=postgresql://<db-user>:<db-password>@db.<your-project-ref>.supabase.co:5432/<db-name>?sslmode=require
 ```
 
-> Se a senha tiver caracteres especiais, use URL encoding.
+> Se a senha tiver caracteres especiais (`@`, `#`, `%`, `&`, etc.), use URL encoding.  
+> Exemplo: `Minha@Senha#123` → `Minha%40Senha%23123`.
 
 ## 3) Configurar no Render
 
