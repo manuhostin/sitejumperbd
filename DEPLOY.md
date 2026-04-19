@@ -3,7 +3,7 @@
 ## 1) Backend no Render
 1. No Render, crie o serviço usando o `render.yaml` deste repositório.
    - Antes do primeiro deploy, substitua os placeholders `<your-frontend>` e `<your-backend>` pelos domínios reais.
-2. Crie um projeto no Supabase e copie a connection string PostgreSQL (modo **Session**).
+2. Crie um projeto no Supabase e copie a connection string PostgreSQL do modo **Session** (use exatamente os valores do painel do Supabase).
 3. No serviço do Render, adicione a variável `DATABASE_URL` com a connection string do Supabase.
 4. No deploy, o Render executa automaticamente:
    - `pip install -r requirements.txt`
