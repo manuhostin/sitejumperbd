@@ -4,6 +4,7 @@
 1. No Render, crie o serviço usando o `render.yaml` deste repositório.
    - Antes do primeiro deploy, substitua os placeholders `<your-frontend>` e `<your-backend>` pelos domínios reais.
 2. Crie um projeto no Supabase e copie a connection string PostgreSQL do modo **Session** (use exatamente os valores do painel do Supabase).
+   - O modo Session mantém conexão estável para o Django (evita limitações de pooling por transação em operações longas).
 3. No serviço do Render, adicione a variável `DATABASE_URL` com a connection string do Supabase.
 4. No deploy, o Render executa automaticamente:
    - `pip install -r requirements.txt`
